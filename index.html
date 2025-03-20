@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank - Online Banking</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-dark: #003d7a;
+            --primary-light: #e6f0ff;
+            --accent-color: #4caf50;
+            --danger-color: #dc3545;
+            --text-color: #333;
+            --text-light: #6c757d;
+            --border-color: #dee2e6;
+            --bg-light: #f8f9fa;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 15px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .header-button:hover {
+            background-color: var(--bg-light);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .user-menu:hover {
+            background-color: var(--bg-light);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 30px 0;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-weight: 500;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 25px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .date {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .primary-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .primary-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .secondary-button {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .secondary-button:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 25px;
+        }
+
+        /* Accounts Section */
+        .accounts-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .section-action {
+            color: var(--primary-color);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .account-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .account-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .account-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .account-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .account-name {
+            font-weight: 600;
+        }
+
+        .account-number {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .account-balance {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .account-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Transactions Section */
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .transaction-icon.expense {
+            background-color: #ffebee;
+            color: var(--danger-color);
+        }
+
+        .transaction-icon.income {
+            background-color: #e8f5e9;
+            color: var(--accent-color);
+        }
+
+        .transaction-details {
+            flex-grow: 1;
+        }
+
+        .transaction-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .transaction-date {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .transaction-amount.expense {
+            color: var(--danger-color);
+        }
+
+        .transaction-amount.income {
+            color: var(--accent-color);
+        }
+
+        /* Activity Section */
+        .activity-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .activity-content {
+            flex-grow: 1;
+        }
+
+        .activity-text {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .activity-text strong {
+            font-weight: 600;
+        }
+
+        .activity-time {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Security Alert */
+        .security-alert {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 4px;
+        }
+
+        .alert-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .alert-icon {
+            color: #f57c00;
+        }
+
+        .alert-text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .alert-action {
+            color: var(--primary-color);
+            margin-top: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        /* BITB Popup Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .bitb-popup {
+            width: 420px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            display: none;
+        }
+
+        .bitb-header {
+            display: flex;
+            align-items: center;
+            background: #f1f1f1;
+            height: 48px;
+            padding: 0 16px;
+            user-select: none;
+            cursor: grab;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .bitb-header:active {
+            cursor: grabbing;
+        }
+
+        .bitb-header-text {
+            flex-grow: 1;
+            font-size: 14px;
+            color: #444;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bitb-header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .bitb-action {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .bitb-content {
+            padding: 30px 25px;
+        }
+
+        .bitb-logo {
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .bitb-title {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .bitb-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .bitb-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            transition: border 0.2s ease;
+            outline: none;
+        }
+
+        .bitb-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        .bitb-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .bitb-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .bitb-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        .bitb-option {
+            cursor: pointer;
+        }
+
+        .bitb-footer {
+            margin-top: 25px;
+            font-size: 13px;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        /* Dialog Box */
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            z-index: 1001;
+            max-width: 400px;
+            display: none;
+        }
+
+        .dialog-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .dialog-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .dialog-content {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .dialog-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banking App UI -->
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">🏦</span>
+                <span>SecureBank</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-button">
+                    <span>🔔</span>
+                </button>
+                <button class="header-button">
+                    <span>📩</span>
+                </button>
+                <div class="user-menu" onclick="showVerificationPopup()">
+                    <div class="user-avatar">J</div>
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="sidebar">
+                <div class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💳</span>
+                    <span class="nav-text">Accounts</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🔄</span>
+                    <span class="nav-text">Transfers</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Analytics</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💸</span>
+                    <span class="nav-text">Bill Pay</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
+                </div>
+                <div class="nav-item" style="margin-top: 30px;">
+                    <span class="nav-icon">🔒</span>
+                    <span class="nav-text">Security Center</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">Help & Support</span>
+                </div>
+            </div>
+
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <div>
+                        <h1 class="greeting">Good afternoon, John</h1>
+                        <div class="date">Thursday, March 20, 2025</div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-button secondary-button">
+                            <span>↓</span>
+                            <span>Download Statement</span>
+                        </button>
+                        <button class="action-button primary-button" onclick="showVerificationPopup()">
+                            <span>🔄</span>
+                            <span>Make a Transfer</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div>
+                        <div class="accounts-section">
+                            <div class="section-header">
+                                <h2 class="section-title">Your Accounts</h2>
+                                <span class="section-action">View All</span>
+                            </div>
+                            <div class="account-cards">
+                                <div class="account-card">
+                                    <div class="account-info">
+                                        <div class="account-name">Checking Account</div>
+                                        <div class="account-number">••••4567</div>
+                                    </div>
+                                    <div class="account-balance">$5,842.23</div>
+                                    <div class="account-details">
+                                        <span>Available Balance</span>
+                                        <span>Primary Account</span>
+                                    </div>
+                                </div>
+                                <div class="account-card">
+                                    <div class="account-info">
+                                        <div class="account-name">Savings Account</div>
+                                        <div class="account-number">••••8912</div>
+                                    </div>
+                                    <div class="account-balance">$12,385.91</div>
+                                    <div class="account-details">
+                                        <span>Interest Rate: 0.75%</span>
+                                        <span>Last Transaction: 5 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="account-card">
+                                    <div class="account-info">
+                                        <div class="account-name">Premium Credit Card</div>
+                                        <div class="account-number">••••3456</div>
+                                    </div>
+                                    <div class="account-balance">$1,247.65</div>
+                                    <div class="account-details">
+                                        <span>Current Balance</span>
+                                        <span>Due Date: April 15, 2025</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accounts-section" style="margin-top: 25px;">
+                            <div class="section-header">
+                                <h2 class="section-title">Recent Transactions</h2>
+                                <span class="section-action">View All</span>
+                            </div>
+                            <div class="transaction-list">
+                                <div class="transaction-item">
+                                    <div class="transaction-icon expense">↑</div>
+                                    <div class="transaction-details">
+                                        <div class="transaction-title">Amazon.com</div>
+                                        <div class="transaction-date">Today, 10:23 AM</div>
+                                    </div>
+                                    <div class="transaction-amount expense">-$94.35</div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon expense">↑</div>
+                                    <div class="transaction-details">
+                                        <div class="transaction-title">Starbucks Coffee</div>
+                                        <div class="transaction-date">Yesterday, 8:15 AM</div>
+                                    </div>
+                                    <div class="transaction-amount expense">-$6.45</div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon income">↓</div>
+                                    <div class="transaction-details">
+                                        <div class="transaction-title">Direct Deposit - ACME Inc</div>
+                                        <div class="transaction-date">Mar 15, 2025</div>
+                                    </div>
+                                    <div class="transaction-amount income">+$3,254.89</div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon expense">↑</div>
+                                    <div class="transaction-details">
+                                        <div class="transaction-title">Electricity Bill</div>
+                                        <div class="transaction-date">Mar 14, 2025</div>
+                                    </div>
+                                    <div class="transaction-amount expense">-$142.78</div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon expense">↑</div>
+                                    <div class="transaction-details">
+                                        <div class="transaction-title">Whole Foods Market</div>
+                                        <div class="transaction-date">Mar 12, 2025</div>
+                                    </div>
+                                    <div class="transaction-amount expense">-$87.23</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="activity-section">
+                            <div class="section-header">
+                                <h2 class="section-title">Recent Activity</h2>
+                                <span class="section-action">View All</span>
+                            </div>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon">🔔</div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Your <strong>March statement</strong> is now available</div>
+                                        <div class="activity-time">Today, 9:45 AM</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">💳</div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Unusual activity detected on your <strong>Premium Credit Card</strong></div>
+                                        <div class="activity-time">Yesterday</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">📱</div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">A new device was used to sign in to your account</div>
+                                        <div class="activity-time">Mar 18, 2025</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">🔄</div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Scheduled transfer to <strong>Savings</strong> completed</div>
+                                        <div class="activity-time">Mar 15, 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="security-alert">
+                            <div class="alert-heading">
+                                <span class="alert-icon">⚠️</span>
+                                <span>Security Alert</span>
+                            </div>
+                            <div class="alert-text">
+                                We've noticed some suspicious login attempts on your account. Please verify your identity and review recent activity.
+                            </div>
+                            <div class="alert-action" onclick="showVerificationPopup()">
+                                Verify Now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- BITB Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- BITB Popup -->
+    <div id="bitb-popup" class="bitb-popup">
+        <div class="bitb-header" id="bitb-header">
+            <div class="bitb-header-text">
+                <span>🔒</span> secure.securebank.com
+            </div>
+            <div class="bitb-header-actions">
+                <div class="bitb-action" style="background-color: #ffbd44;"></div>
+                <div class="bitb-action" style="background-color: #00ca4e;" onclick="closeBITB()"></div>
+            </div>
+        </div>
+        <div class="bitb-content">
+            <div class="bitb-logo">
+                <span>🏦</span>
+                <span>SecureBank</span>
+            </div>
+            <h2 class="bitb-title">Verify Your Identity</h2>
+            <div class="bitb-form">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="bitb-input" value="johndoe" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="bitb-input" placeholder="Enter your password" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Security Code</label>
+                    <input type="text" class="bitb-input" placeholder="Enter the code sent to your phone" autocomplete="off">
+                </div>
+                <button class="bitb-button" onclick="simulateLogin()">Verify</button>
+                
+                <div class="bitb-options">
+                    <span class="bitb-option">Forgot Password?</span>
+                    <span class="bitb-option">Need Help?</span>
+                </div>
+            </div>
+            <div class="bitb-footer">
+                Secured with 256-bit encryption • Privacy Policy
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog Box -->
+    <div id="security-dialog" class="dialog">
+        <div class="dialog-header">
+            <span style="color: #f57c00; font-size: 20px;">✅</span>
+            <h3 class="dialog-title">Verification Successful</h3>
+        </div>
+        <div class="dialog-content">
+            <p>Dear User, </p>
+            <p style="margin-top: 10px;">Your Account has been succesfully verified.</p>
+            <p style="margin-top: 10px;">You may now proceed to the website</p>
+        </div>
+        <div class="dialog-buttons">
+            <button class="dialog-button" style="background-color: #eeeeee;" onclick="closeDialog()">Close</button>
+            <button class="dialog-button" style="background-color: var(--primary-color); color: white;" onclick="continueToWebsite()">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Show the verification popup (BITB attack simulation)
+        function continueToWebsite(){
+            document.getElementById('security-dialog').style.display = 'none';
+        }
+        function showVerificationPopup() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('bitb-popup').style.display = 'block';
+            makeDraggable(document.getElementById('bitb-popup'), document.getElementById('bitb-header'));
+        }
+
+        // Close the BITB popup
+        function closeBITB() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('bitb-popup').style.display = 'none';
+            setTimeout(() => {
+                showSecurityDialog();
+            }, 500);
+        }
+
+        // Show security dialog
+        function showSecurityDialog() {
+            document.getElementById('security-dialog').style.display = 'block';
+        }
+
+        // Close dialog
+        function closeDialog() {
+            document.getElementById('security-dialog').style.display = 'none';
+        }
+
+        // Simulate login
+        function simulateLogin() {
+            // Display a brief "verifying" message
+            const button = document.querySelector('.bitb-button');
+            const originalText = button.textContent;
+            button.textContent = 'Verifying...';
+            button.disabled = true;
+            
+            // After a short delay, show the security dialog
+            setTimeout(() => {
+                closeBITB();
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 1500);
+        }
+
+        // Make the popup draggable
+        function makeDraggable(popup, header) {
+            let offsetX = 0, offsetY = 0, isDragging = false;
+
+            header.onmousedown = (e) => {
+                isDragging = true;
+                offsetX = e.clientX - popup.getBoundingClientRect().left;
+                offsetY = e.clientY - popup.getBoundingClientRect().top;
+                popup.style.transition = 'none';
+                
+                // Remove transform to allow proper positioning
+                popup.style.transform = 'none';
+                
+                // Update initial position
+                popup.style.left = `${popup.getBoundingClientRect().left}px`;
+                popup.style.top = `${popup.getBoundingClientRect().top}px`;
+                
+                document.onmousemove = drag;
+                document.onmouseup = stopDrag;
+            };
+
+            function drag(e) {
+                if (!isDragging) return;
+                popup.style.left = `${e.clientX - offsetX}px`;
+                popup.style.top = `${e.clientY - offsetY}px`;
+            }
+
+            function stopDrag() {
+                isDragging = false;
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+        }
+
+        // Initialize - Add some random dates and amounts
+        document.addEventListener('DOMContentLoaded', function() {
+            const dates = document.querySelectorAll('.transaction-date, .activity-time');
+            
+            // Update displayed date
+            const today = new Date();
+            const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+            document.querySelector('.date').textContent = today.toLocaleDateString('en-US', options);
+            
+            // Add time-of-day greeting
+            const hours = today.getHours();
+            let greeting = "Good morning";
+            if (hours >= 12 && hours < 17) {
+                greeting = "Good afternoon";
+            } else if (hours >= 17) {
+                greeting = "Good evening";
+            }
+            document.querySelector('.greeting').textContent = `${greeting}, John`;
+        });
+
+        </script>
