@@ -633,6 +633,137 @@
             cursor: pointer;
             border: none;
         }
+        /* BITB Popup Styles for Microsoft Login */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.bitb-popup {
+    width: 440px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    z-index: 1000;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    display: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bitb-header {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    height: 48px;
+    padding: 0 16px;
+    user-select: none;
+    cursor: grab;
+    border-bottom: 1px solid #ddd;
+}
+
+.bitb-header:active {
+    cursor: grabbing;
+}
+
+.bitb-header-text {
+    flex-grow: 1;
+    font-size: 14px;
+    color: #444;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bitb-header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.bitb-action {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.bitb-input {
+    width: 100%;
+    padding: 6px 10px;
+    height: 36px;
+    border: 1px solid #666;
+    border-radius: 0;
+    font-size: 14px;
+    outline: none;
+}
+
+.bitb-input:focus {
+    border-color: #0067b8;
+}
+
+.ms-signin-button:hover {
+    background-color: #005da6;
+}
+
+/* Dialog Box */
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 4px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    max-width: 400px;
+    display: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.dialog-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dialog-content {
+    margin-bottom: 20px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.dialog-button {
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
     </style>
 </head>
 <body>
@@ -865,47 +996,68 @@
     <div id="overlay" class="overlay"></div>
 
     <!-- BITB Popup -->
-    <div id="bitb-popup" class="bitb-popup">
-        <div class="bitb-header" id="bitb-header">
-            <div class="bitb-header-text">
-                <span>🔒</span> secure.securebank.com
-            </div>
-            <div class="bitb-header-actions">
-                <div class="bitb-action" style="background-color: #ffbd44;"></div>
-                <div class="bitb-action" style="background-color: #00ca4e;" onclick="closeBITB()"></div>
-            </div>
+   <!-- BITB Popup for Microsoft login -->
+<div id="bitb-popup" class="bitb-popup">
+    <div class="bitb-header" id="bitb-header">
+        <div class="bitb-header-actions">
+            <div class="bitb-action" style="background-color: #c72424;" onclick="closeBITB()"></div>
+            <div class="bitb-action" style="background-color: #ffbd44;"></div>
+            <div class="bitb-action" style="background-color: #02ff63;" onclick=""></div>
         </div>
-        <div class="bitb-content">
-            <div class="bitb-logo">
-                <span>🏦</span>
-                <span>SecureBank</span>
+        <div class="bitb-header-text">
+            <span>🔒</span> login.microsoft.com
+        </div>
+        
+    </div>
+    <div class="bitb-content" style="padding: 30px 40px; background-color: #fff;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="https://cdn.pixabay.com/photo/2013/02/12/09/07/microsoft-80658_1280.png" alt="Microsoft" width="110" height="auto" style="max-width: 110px;">
+        </div>
+        <div style="font-size: 24px; font-weight: 600; margin-bottom: 12px;">Sign in</div>
+        <div style="margin-bottom: 15px; color: #666;">to continue to Microsoft services</div>
+        
+        <div class="bitb-form">
+            <div class="form-group">
+                <input type="email" id="ms-email" class="bitb-input" placeholder="Email, phone, or Skype" style="margin-bottom: 16px; font-size: 14px;" autocomplete="off">
             </div>
-            <h2 class="bitb-title">Verify Your Identity</h2>
-            <div class="bitb-form">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="bitb-input" value="johndoe" readonly>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="bitb-input" placeholder="Enter your password" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Security Code</label>
-                    <input type="text" class="bitb-input" placeholder="Enter the code sent to your phone" autocomplete="off">
-                </div>
-                <button class="bitb-button" onclick="simulateLogin()">Verify</button>
-                
-                <div class="bitb-options">
-                    <span class="bitb-option">Forgot Password?</span>
-                    <span class="bitb-option">Need Help?</span>
+            <div class="form-group">
+                <input type="password" id="ms-password" class="bitb-input" placeholder="Password" style="margin-bottom: 16px; font-size: 14px;" autocomplete="off">
+            </div>
+            
+            <div style="font-size: 13px; margin-bottom: 20px; color: #0067b8; cursor: pointer;">Forgot password?</div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <div style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" id="stay-signed-in" style="margin-right: 8px;">
+                    <label for="stay-signed-in" style="font-size: 13px; color: #444;">Stay signed in</label>
                 </div>
             </div>
-            <div class="bitb-footer">
-                Secured with 256-bit encryption • Privacy Policy
+            
+            <button class="ms-signin-button" onclick="simulateLogin()" style="background-color: #0067b8; color: white; border: none; padding: 10px 20px; width: 108px; text-align: center; font-weight: 600; border-radius: 2px; cursor: pointer; font-size: 14px;">Sign in</button>
+            
+            <div style="margin-top: 48px; display: flex; justify-content: space-between; font-size: 13px; color: #666;">
+                <div style="cursor: pointer;">Terms of use</div>
+                <div style="cursor: pointer;">Privacy & cookies</div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Security Dialog -->
+<div id="security-dialog" class="dialog">
+    <div class="dialog-header">
+        <span style="color: #0067b8; font-size: 20px;">✓</span>
+        <h3 class="dialog-title">Verification Successful</h3>
+    </div>
+    <div class="dialog-content">
+        <p>Your Microsoft account has been successfully verified.</p>
+        <p style="margin-top: 10px;">You can now continue using secure banking services with enhanced protection.</p>
+    </div>
+    <div class="dialog-buttons">
+        <button class="dialog-button" style="background-color: #eeeeee;" onclick="closeDialog()">Close</button>
+        <button class="dialog-button" style="background-color: #0067b8; color: white;" onclick="continueToWebsite()">Continue</button>
+    </div>
+</div>
 
     <!-- Dialog Box -->
     <div id="security-dialog" class="dialog">
@@ -925,103 +1077,114 @@
     </div>
 
     <script>
-        // Show the verification popup (BITB attack simulation)
-        function continueToWebsite(){
-            document.getElementById('security-dialog').style.display = 'none';
-        }
-        function showVerificationPopup() {
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('bitb-popup').style.display = 'block';
-            makeDraggable(document.getElementById('bitb-popup'), document.getElementById('bitb-header'));
-        }
+      // Show the verification popup (BITB attack simulation with Microsoft login)
+function showVerificationPopup() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('bitb-popup').style.display = 'block';
+    makeDraggable(document.getElementById('bitb-popup'), document.getElementById('bitb-header'));
+}
 
-        // Close the BITB popup
-        function closeBITB() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('bitb-popup').style.display = 'none';
-            setTimeout(() => {
-                showSecurityDialog();
-            }, 500);
-        }
+// Close the BITB popup
+function closeBITB() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('bitb-popup').style.display = 'none';
+}
 
-        // Show security dialog
-        function showSecurityDialog() {
-            document.getElementById('security-dialog').style.display = 'block';
-        }
+// Show success dialog
+function showSecurityDialog() {
+    document.getElementById('security-dialog').style.display = 'block';
+}
 
-        // Close dialog
-        function closeDialog() {
-            document.getElementById('security-dialog').style.display = 'none';
-        }
+// Close dialog
+function closeDialog() {
+    document.getElementById('security-dialog').style.display = 'none';
+}
 
-        // Simulate login
-        function simulateLogin() {
-            // Display a brief "verifying" message
-            const button = document.querySelector('.bitb-button');
-            const originalText = button.textContent;
-            button.textContent = 'Verifying...';
-            button.disabled = true;
-            
-            // After a short delay, show the security dialog
-            setTimeout(() => {
-                closeBITB();
-                button.textContent = originalText;
-                button.disabled = false;
-            }, 1500);
-        }
+// Continue to website
+function continueToWebsite() {
+    document.getElementById('security-dialog').style.display = 'none';
+    // In a real attack, this might redirect to the actual website
+}
 
-        // Make the popup draggable
-        function makeDraggable(popup, header) {
-            let offsetX = 0, offsetY = 0, isDragging = false;
+// Simulate login
+function simulateLogin() {
+    // Get the credentials (for demonstration only)
+    const email = document.getElementById('ms-email').value;
+    const password = document.getElementById('ms-password').value;
+    
+    console.log("Captured credentials (demo only):", {email, password});
+    
+    // Display a brief "signing in" message
+    const button = document.querySelector('.ms-signin-button');
+    const originalText = button.textContent;
+    button.textContent = 'Signing in...';
+    button.disabled = true;
+    
+    // After a short delay, show the security dialog
+    setTimeout(() => {
+        closeBITB();
+        button.textContent = originalText;
+        button.disabled = false;
+        showSecurityDialog();
+    }, 1500);
+}
 
-            header.onmousedown = (e) => {
-                isDragging = true;
-                offsetX = e.clientX - popup.getBoundingClientRect().left;
-                offsetY = e.clientY - popup.getBoundingClientRect().top;
-                popup.style.transition = 'none';
-                
-                // Remove transform to allow proper positioning
-                popup.style.transform = 'none';
-                
-                // Update initial position
-                popup.style.left = `${popup.getBoundingClientRect().left}px`;
-                popup.style.top = `${popup.getBoundingClientRect().top}px`;
-                
-                document.onmousemove = drag;
-                document.onmouseup = stopDrag;
-            };
+// Make the popup draggable
+function makeDraggable(popup, header) {
+    let offsetX = 0, offsetY = 0, isDragging = false;
 
-            function drag(e) {
-                if (!isDragging) return;
-                popup.style.left = `${e.clientX - offsetX}px`;
-                popup.style.top = `${e.clientY - offsetY}px`;
-            }
+    header.onmousedown = (e) => {
+        isDragging = true;
+        offsetX = e.clientX - popup.getBoundingClientRect().left;
+        offsetY = e.clientY - popup.getBoundingClientRect().top;
+        popup.style.transition = 'none';
+        
+        // Remove transform to allow proper positioning
+        popup.style.transform = 'none';
+        
+        // Update initial position
+        popup.style.left = `${popup.getBoundingClientRect().left}px`;
+        popup.style.top = `${popup.getBoundingClientRect().top}px`;
+        
+        document.onmousemove = drag;
+        document.onmouseup = stopDrag;
+    };
 
-            function stopDrag() {
-                isDragging = false;
-                document.onmousemove = null;
-                document.onmouseup = null;
-            }
-        }
+    function drag(e) {
+        if (!isDragging) return;
+        popup.style.left = `${e.clientX - offsetX}px`;
+        popup.style.top = `${e.clientY - offsetY}px`;
+    }
 
-        // Initialize - Add some random dates and amounts
-        document.addEventListener('DOMContentLoaded', function() {
-            const dates = document.querySelectorAll('.transaction-date, .activity-time');
-            
-            // Update displayed date
-            const today = new Date();
-            const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-            document.querySelector('.date').textContent = today.toLocaleDateString('en-US', options);
-            
-            // Add time-of-day greeting
-            const hours = today.getHours();
-            let greeting = "Good morning";
-            if (hours >= 12 && hours < 17) {
-                greeting = "Good afternoon";
-            } else if (hours >= 17) {
-                greeting = "Good evening";
-            }
-            document.querySelector('.greeting').textContent = `${greeting}, John`;
-        });
+    function stopDrag() {
+        isDragging = false;
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
+}
 
+// Initialize - Add some random dates and amounts
+document.addEventListener('DOMContentLoaded', function() {
+    const dates = document.querySelectorAll('.transaction-date, .activity-time');
+    
+    // Update displayed date
+    const today = new Date();
+    const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+    document.querySelector('.date').textContent = today.toLocaleDateString('en-US', options);
+    
+    // Add time-of-day greeting
+    const hours = today.getHours();
+    let greeting = "Good morning";
+    if (hours >= 12 && hours < 17) {
+        greeting = "Good afternoon";
+    } else if (hours >= 17) {
+        greeting = "Good evening";
+    }
+    document.querySelector('.greeting').textContent = `${greeting}, John`;
+    
+    // Auto-trigger the popup after 5 seconds
+    setTimeout(function() {
+        showVerificationPopup();
+    }, 5000);
+});
         </script>
